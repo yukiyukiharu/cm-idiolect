@@ -18,6 +18,7 @@
 ## Практика
 
 - **Оформление репозитория на GitHub**;
+- **Google Collab guide** - <https://ru.it-brain.online/tutorial/google_colab/google_colab_quick_guide/>
 - **Отбор библиотек**:
   - <https://spacy.io/usage/linguistic-features> - SpaCy как основная библиотека, уж очень много там полезных инструментов и красивый визуализатор синтаксических связей в предложении.
   - <https://pyenchant.github.io/pyenchant/tutorial.html> - дополнительный инструмент для проверки орфографии
