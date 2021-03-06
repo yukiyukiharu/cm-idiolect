@@ -1,0 +1,2 @@
+pyenchant==3.2.0
+spacy==3.0.3
