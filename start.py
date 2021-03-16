@@ -3,6 +3,8 @@ from main import calculate_average_word_length
 from main import calculate_average_sentence_length
 from main import check_abbreviations
 from main import find_rare_vocabulary
+from main import find_words_caps
+from main import find_complex_punctuation
 
 if __name__ == '__main__':
     f = ('Hi my name is Dih. I am from russia. dog.')
@@ -20,6 +22,17 @@ if __name__ == '__main__':
 
     sentence_average = calculate_average_sentence_length(text)
     print(sentence_average)
+    
+        with open('Arthur_Conan_Doyle.txt') as f:
+        f = f.read().splitlines()
+    word = find_words_caps(f)
+    print(word)
+
+    with open('Arthur_Conan_Doyle.txt') as file:
+        file = file.read().split()
+    file1 = list(file)
+    punct = find_complex_punctuation(file1)
+    print(punct)
 
     abrev = check_abbreviations(text)
     print(abrev)
