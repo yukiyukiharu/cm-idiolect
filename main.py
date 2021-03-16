@@ -48,7 +48,23 @@ def calculate_average_sentence_length(list_words: tuple) -> float:
     return average_word
 
 
+def find_complex_punctuation(text: list) -> list:
+    complex_punctuation = []
+    pattern_same_punctuation = re.compile('([.!?]{2,})')
+    for element in text:
+        match = pattern_same_punctuation.search(element)
+        if match:
+            complex_punctuation.append(match.group(1))
+    return complex_punctuation
 
+
+def find_words_caps(file):
+    word_list = []
+    for line in file:
+        for word in line.split(' '):
+            if word.isupper() and len(word) > 1 and word.isalpha():
+                word_list.append(word)
+    return word_list
 
 
 def check_abbreviations (list_word: tuple): #нужна точка чтобы он смог найти, но при токенизации точка -> в <end> + проблемы с регистром
