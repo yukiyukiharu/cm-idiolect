@@ -62,7 +62,9 @@ def find_words_caps(file):
     word_list = []
     for line in file:
         for word in line.split(' '):
-            if word.isupper() and len(word) > 1 and word.isalpha():
+            if word.isupper() and len(word) > 1:
+                if not word.isalpha():
+                    word = re.sub(r'[^A-Za-z]', '', word)
                 word_list.append(word)
     return word_list
 
