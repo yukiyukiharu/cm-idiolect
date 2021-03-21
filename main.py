@@ -1,99 +1,104 @@
-import enchant
-import re
-import spacy
-#dictionary = enchant.Dict('en_US')
-#print(dictionary.check('Hello'))
+import nltk
+import string
+import numpy as np
+import os
+import pandas as pd
 
 
-def tokenize_by_sentence(text: str) -> tuple:
-    if not isinstance(text, str):
-        raise ValueError
-
-    sentences = re.split('[.!?]', text)
-    list_words = []
-    for sentence in sentences:
-        tokens = re.sub('[^a-z \n]', '', sentence.lower()).split()
-        if not tokens:
-            continue
-        list_words += tokens + ['<END>']
-    return tuple(list_words)
+def find_lex_variety(token):
+    #лексическое разнообразие
+    text = nltk.Text(token)
+    lexical_diversity = (len(set(text)) / len(text)) * 100
+    return lexical_diversity
 
 
-def calculate_average_word_length(list_words: tuple) -> float:
-    if not isinstance(list_words, tuple):
-        raise ValueError
-
-    list_words = list(list_words)
-    letter_counter = 0
-    word_counter = 0
-    for token in list_words:
-        if token != '<END>':
-            word_counter += 1
-            for letter in token:
-                letter_counter += 1
-    average = letter_counter / word_counter
-    return average
+def find_average_word_len(token):
+    #средняя длина слова
+    words = set(token)
+    word_chars = [len(word) for word in words]
+    mean_word_len = sum(word_chars) / float(len(word_chars))
+    return mean_word_len
 
 
-def calculate_average_sentence_length(list_words: tuple) -> float:
-    stop = '<END>'
-    word_counter = 0
-    sentence_counter = 0
-    for token in list_words:
-        if token != stop:
-            word_counter += 1
-        else:
-            sentence_counter += 1
-    average_word = word_counter / sentence_counter
-    return average_word
+def find_average_sentence_len(words):
+    #средняя длина предложения
+    sentences = nltk.sent_tokenize(words)
+    sentence_word_length = [len(sent.split()) for sent in sentences]
+    mean_sentence_len = np.mean(sentence_word_length)
+    return mean_sentence_len
 
 
-def find_complex_punctuation(text: list) -> list:
-    complex_punctuation = []
-    pattern_same_punctuation = re.compile('([.!?]{2,})')
-    for element in text:
-        match = pattern_same_punctuation.search(element)
-        if match:
-            complex_punctuation.append(match.group(1))
-    return complex_punctuation
+def find_average(catalogue):
+    numerator = 0
+    for element in catalogue:
+        numerator += element
+    result = numerator / len(catalogue)
+    return result
 
 
-def find_words_caps(file):
-    word_list = []
-    for line in file:
-        for word in line.split(' '):
-            if word.isupper() and len(word) > 1:
-                if not word.isalpha():
-                    word = re.sub(r'[^A-Za-z]', '', word)
-                word_list.append(word)
-    return word_list
+if __name__ == '__main__':
+    direct = ["./VanillaChip101", "./imadetheline"]
+    nltk.download('punkt')
+    author_res = []
+    for el in direct:
+        lex_var_list = []
+        word_len_list = []
+        sentence_len_list = []
+        token_list = []
+        direction = os.path.abspath(el)
+        direction_1 = os.listdir(el)
+        counter = 0
+        word_average_list = []
+        sentence_average_list = []
+        for element in direction_1:
+            element = direction + "\\" + element
+            f = open(element, encoding='utf-8')
+            s = f.read().split()
+            s = str(s)
 
+            tokens = nltk.word_tokenize(s)
 
-def check_abbreviations (list_word: tuple): #нужна точка чтобы он смог найти, но при токенизации точка -> в <end> + проблемы с регистром
-    d = {}
-    with open("abrv.txt", encoding='utf-8') as file:
-        for line in file:
-            key, *value = line.split()
-            d[key] = value
-    #print(d)
-    counter = 0
-    abr = []
-    for element in list_word:
-        for k in d:
-            if element.lower() == k:
-                counter += 1
-                abr.append(element)
-    return counter, abr
+            remove_punctuation = str.maketrans('', '', string.punctuation)
+            tokens_ = [x for x in [t.translate(remove_punctuation).lower() for t in tokens] if len(x) > 0]
+            # чтобы убрать еще и апострофы
+            for element in tokens_:
+                if element.isalpha():
+                    continue
+                else:
+                    tokens_.remove(element)
+            #print(tokens_)
+            token_list.extend(tokens_)
 
-def find_rare_vocabulary(text_string):
+            lex_variety = find_lex_variety(tokens_)
+            lex_var_list.append(lex_variety)
 
-    frequency = {}
-    match_pattern = re.findall(r'\b[a-z]{3,15}\b', text_string)
+            word_len = find_average_word_len(tokens_)
+            word_len_list.append(word_len)
 
-    for word in match_pattern:
-        count = frequency.get(word, 0)
-        frequency[word] = count + 1
+            sentence_len = find_average_sentence_len(s)
+            sentence_len_list.append(sentence_len)
 
-    list_freq = list(frequency.items())
-    list_freq.sort(key=lambda i: i[1])
-    return list_freq
+        #print(lex_var_list)
+        res_lex_var = find_average(lex_var_list)
+        #print(res_lex_var)
+        author_res.append(res_lex_var)
+
+        #print(word_len_list)
+        res_word_len = find_average(word_len_list)
+        #print(res_word_len)
+        author_res.append(res_word_len)
+
+        #print(sentence_len_list)
+        res_sentence_len = find_average(sentence_len_list)
+        #print(res_sentence_len)
+        author_res.append(res_sentence_len)
+
+    #print(author_res)
+
+    #print(token_list)
+
+    df = pd.DataFrame({'Author': ['Author1', 'Author2'], 'lex variety': [author_res[0], author_res[3]],
+                       'average word len': [author_res[1], author_res[4]],
+                       'average sentence len': [author_res[2], author_res[5]]})
+    #print(df)
+    df.to_excel('./result.xlsx', sheet_name='results', index=False)
