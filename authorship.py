@@ -5,6 +5,7 @@ import math
 from main import find_lex_variety
 from main import find_average_word_len
 from main import find_average_sentence_len
+from main import calculate_punctuation_percentage
 
 list_direction = ['VanillaChip101+.txt', 'imadetheline+.txt', 'another_author.txt']
 lex_var_list = []
@@ -27,6 +28,9 @@ for element in list_direction:
             tokens_.remove(element)
 
     #print(tokens_)
+    
+    punctuation = calculate_punctuation_percentage(s)
+    res_punct.append(punctuation)
 
     lex_variety = find_lex_variety(tokens_)
     lex_var_list.append(lex_variety)
@@ -39,7 +43,8 @@ for element in list_direction:
 
 df = pd.DataFrame({'Author': ['1', '2', '3'], 'lex variety': [lex_var_list[0], lex_var_list[1], lex_var_list[2]],
                    'average word len': [word_len_list[0], word_len_list[1], word_len_list[2]],
-                   'average sentence len': [sentence_len_list[0], sentence_len_list[1], sentence_len_list[2]]})
+                   'average sentence len': [sentence_len_list[0], sentence_len_list[1], sentence_len_list[2]],
+                   'punctuation percentage': [res_punct[0], res_punct[1], res_punct[2]]})
 #print(df)
 df.to_excel('./result_authorship.xlsx', sheet_name='results', index=False)
 
