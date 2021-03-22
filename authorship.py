@@ -1,9 +1,9 @@
 import nltk
 import string
 import pandas as pd
-from main_2 import find_lex_variety
-from main_2 import find_average_word_len
-from main_2 import find_average_sentence_len
+from main import find_lex_variety
+from main import find_average_word_len
+from main import find_average_sentence_len
 
 list_direction = ['VanillaChip101+.txt', 'imadetheline+.txt', 'another_author.txt']
 lex_var_list = []
