@@ -36,6 +36,16 @@ def find_average(catalogue):
     return result
 
 
+def calculate_punctuation_percentage(text):
+    if text.strip() == "":
+        return 0
+    count = sum([1 if char in string.punctuation else 0 for char in text])
+    spaces = text.count(" ")
+    total_chars = len(text) - spaces
+
+    return round(count / total_chars, 3) * 100
+
+
 if __name__ == '__main__':
     direct = ["./VanillaChip101", "./imadetheline"]
     nltk.download('punkt')
@@ -44,6 +54,7 @@ if __name__ == '__main__':
         lex_var_list = []
         word_len_list = []
         sentence_len_list = []
+        res_punct = []
         token_list = []
         direction = os.path.abspath(el)
         direction_1 = os.listdir(el)
@@ -69,6 +80,9 @@ if __name__ == '__main__':
             #print(tokens_)
             token_list.extend(tokens_)
 
+            punctuation = calculate_punctuation_percentage(s)
+            res_punct.append(punctuation)
+            
             lex_variety = find_lex_variety(tokens_)
             lex_var_list.append(lex_variety)
 
@@ -92,13 +106,17 @@ if __name__ == '__main__':
         res_sentence_len = find_average(sentence_len_list)
         #print(res_sentence_len)
         author_res.append(res_sentence_len)
+        
+        res_punctuation = sum(res_punct) / len(res_punct)
+        author_res.append(res_punctuation)
 
     #print(author_res)
 
     #print(token_list)
 
-    df = pd.DataFrame({'Author': ['Author1', 'Author2'], 'lex variety': [author_res[0], author_res[3]],
-                       'average word len': [author_res[1], author_res[4]],
-                       'average sentence len': [author_res[2], author_res[5]]})
+    df = pd.DataFrame({'Author': ['Author1', 'Author2'], 'lex variety': [author_res[0], author_res[4]],
+                       'average word len': [author_res[1], author_res[5]],
+                       'average sentence len': [author_res[2], author_res[6]],
+                       'punctuation percentage': [author_res[3], author_res[7]]})
     #print(df)
     df.to_excel('./result.xlsx', sheet_name='results', index=False)
