@@ -126,7 +126,7 @@ for author in authors:
 
 #third stylometric test (John Burrows’ Delta Method (Advanced))
 # check 'unknown2'
-authors = ('Author1', 'Author2', 'unknown1', 'unknown3')
+authors = ('Author1', 'Author2')
 
 # Convert papers to lowercase to count all tokens of the same word together
 # regardless of case
