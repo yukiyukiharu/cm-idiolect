@@ -23,8 +23,8 @@
 
 
 ## Датасет
-- https://github.com/yukiyukiharu/cm-idiolect-research/tree/main/imadetheline - первый автор
-- https://github.com/yukiyukiharu/cm-idiolect-research/tree/main/VanillaChip101 - второй автор
+- https://github.com/yukiyukiharu/cm-idiolect-research/tree/main/VanillaChip101 - первый автор
+- https://github.com/yukiyukiharu/cm-idiolect-research/tree/main/imadetheline - второй автор
 
 ## Облако с используемой литературой
 - **https://disk.yandex.ru/d/gjdwfVyMW-0nOw?w=1**
