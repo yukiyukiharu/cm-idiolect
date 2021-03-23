@@ -92,11 +92,11 @@ text_author_tokens['unknown2'] = ([token.lower() for token in text_author_tokens
 
 # Calculate chisquared for each of the two candidate authors
 for author in authors:
-    # First, build a joint corpus and identify the 500 most frequent words in it
+    # First, build a joint corpus and identify the 50 most frequent words in it
     joint_corpus = (text_author_tokens[author] +
                     text_author_tokens['unknown2'])
     joint_freq_dist = nltk.FreqDist(joint_corpus)
-    most_common = list(joint_freq_dist.most_common(500))
+    most_common = list(joint_freq_dist.most_common(50))
 
     author_share = (len(text_author_tokens[author])
                     / len(joint_corpus))
