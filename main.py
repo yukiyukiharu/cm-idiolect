@@ -59,8 +59,6 @@ if __name__ == '__main__':
         direction = os.path.abspath(el)
         direction_1 = os.listdir(el)
         counter = 0
-        word_average_list = []
-        sentence_average_list = []
         for element in direction_1:
             element = direction + "\\" + element
             f = open(element, encoding='utf-8')
