@@ -190,6 +190,7 @@ for author in authors:
                                             feature_stdev)
 
 # Tokenize the test case
+#text of unknown author wich we will check (after will also check for 'unknown1' and 'unknown3')
 testcase_tokens = nltk.word_tokenize(text_author['unknown2'])
 
 # Filter out punctuation and lowercase the tokens
