@@ -66,7 +66,7 @@ text_author = {}
 for author, files in papers.items():
     text_author[author] = read_files_into_string(files)
 
-#first stylometric test (Mendenhall’s Characteristic Curves of Composition)
+
 authors = ('Author1', 'Author2', 'unknown1', 'unknown2', 'unknown3')
 
 text_author_tokens = {}
@@ -76,13 +76,10 @@ for author in authors:
     # Filter out punctuation
     text_author_tokens[author] = ([token for token in tokens
                                    if any(c.isalpha() for c in token)])
-    # Get a distribution of token lengths
-    token_lengths = [len(token) for token in text_author_tokens[author]]
-    text_author_length_distributions[author] = nltk.FreqDist(token_lengths)
-    text_author_length_distributions[author].plot(15, title=author)
 
 
-#second stylometric test (Kilgariff’s Chi-Squared Method)
+
+# Kilgariff’s Chi-Squared Method
 # authors we are analyzing
 authors = ('Author1', 'Author2')
 for author in authors:
@@ -124,7 +121,7 @@ for author in authors:
     print("The Chi-squared statistic for candidate", author, "is", chisquared)
 
 
-#third stylometric test (John Burrows’ Delta Method (Advanced))
+# John Burrows’ Delta Method 
 # check 'unknown2'
 authors = ('Author1', 'Author2')
 
