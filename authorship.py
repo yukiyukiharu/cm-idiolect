@@ -70,7 +70,6 @@ for author, files in papers.items():
 authors = ('Author1', 'Author2', 'unknown1', 'unknown2', 'unknown3')
 
 text_author_tokens = {}
-text_author_length_distributions = {}
 for author in authors:
     tokens = nltk.word_tokenize(text_author[author])
     # Filter out punctuation
